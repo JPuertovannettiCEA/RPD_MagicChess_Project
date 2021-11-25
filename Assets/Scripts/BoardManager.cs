@@ -119,40 +119,28 @@ public class BoardManager : MonoBehaviour
                 activeChessman.Remove(c.gameObject);
                 Destroy(c.gameObject);
             }
-            if (x == EnPassantMove[0] && y == EnPassantMove[1])
-            {
-                if (isWhiteTurn)
-                    c = Chessmans[x, y - 1];
-                else
-                    c = Chessmans[x, y + 1];
-
-                activeChessman.Remove(c.gameObject);
-                Destroy(c.gameObject);
-            }
-            EnPassantMove[0] = -1;
-            EnPassantMove[1] = -1;
-            if (selectedChessman.GetType() == typeof(Pawn))
-            {
-                if (y == 7) // White Promotion
-                {
-                    activeChessman.Remove(selectedChessman.gameObject);
-                    Destroy(selectedChessman.gameObject);
-                    SpawnChessman(1, x, y, true);
-                    selectedChessman = Chessmans[x, y];
-                }
-                else if (y == 0) // Black Promotion
-                {
-                    activeChessman.Remove(selectedChessman.gameObject);
-                    Destroy(selectedChessman.gameObject);
-                    SpawnChessman(7, x, y, false);
-                    selectedChessman = Chessmans[x, y];
-                }
-                EnPassantMove[0] = x;
-                if (selectedChessman.CurrentY == 1 && y == 3)
-                    EnPassantMove[1] = y - 1;
-                else if (selectedChessman.CurrentY == 6 && y == 4)
-                    EnPassantMove[1] = y + 1;
-            }
+            // if (selectedChessman.GetType() == typeof(Pawn))
+            // {
+            //     if (y == 7) // White Promotion
+            //     {
+            //         activeChessman.Remove(selectedChessman.gameObject);
+            //         Destroy(selectedChessman.gameObject);
+            //         SpawnChessman(1, x, y, true);
+            //         selectedChessman = Chessmans[x, y];
+            //     }
+            //     else if (y == 0) // Black Promotion
+            //     {
+            //         activeChessman.Remove(selectedChessman.gameObject);
+            //         Destroy(selectedChessman.gameObject);
+            //         SpawnChessman(7, x, y, false);
+            //         selectedChessman = Chessmans[x, y];
+            //     }
+            //     EnPassantMove[0] = x;
+            //     if (selectedChessman.CurrentY == 1 && y == 3)
+            //         EnPassantMove[1] = y - 1;
+            //     else if (selectedChessman.CurrentY == 6 && y == 4)
+            //         EnPassantMove[1] = y + 1;
+            // }
 
             Chessmans[selectedChessman.CurrentX, selectedChessman.CurrentY] = null;
             selectedChessman.transform.position = GetTileCenter(x, y);
