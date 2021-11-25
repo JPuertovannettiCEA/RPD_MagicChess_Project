@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class BoardManager : MonoBehaviour
 {
@@ -28,20 +30,41 @@ public class BoardManager : MonoBehaviour
     private Material previousMat;
     public Material selectedMat;
 
-    public int[] EnPassantMove { set; get; }
+    [SerializeField]
+    private GameObject _restart, _mainMenu, _quit, _blackWinsInfo, _whiteWinsInfo, _whiteTurn, _blackTurn;
+
+    [SerializeField]
+    private EventSystem _eventSystem;
 
     // Use this for initialization
     void Start()
     {
         Instance = this;
         SpawnAllChessmans();
-        EnPassantMove = new int[2] { -1, -1 };
+        _eventSystem.enabled = false;
+        _restart.gameObject.SetActive(false);
+        _mainMenu.gameObject.SetActive(false);
+        _quit.gameObject.SetActive(false);
+        _blackWinsInfo.gameObject.SetActive(false);
+        _whiteWinsInfo.gameObject.SetActive(false);
+        _blackTurn.gameObject.SetActive(false);
+        _whiteTurn.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
         UpdateSelection();
+        if (isWhiteTurn)
+        {
+            _whiteTurn.gameObject.SetActive(true);
+            _blackTurn.gameObject.SetActive(false);
+        }
+        else
+        {
+            _blackTurn.gameObject.SetActive(true);
+            _whiteTurn.gameObject.SetActive(false);
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -119,28 +142,6 @@ public class BoardManager : MonoBehaviour
                 activeChessman.Remove(c.gameObject);
                 Destroy(c.gameObject);
             }
-            // if (selectedChessman.GetType() == typeof(Pawn))
-            // {
-            //     if (y == 7) // White Promotion
-            //     {
-            //         activeChessman.Remove(selectedChessman.gameObject);
-            //         Destroy(selectedChessman.gameObject);
-            //         SpawnChessman(1, x, y, true);
-            //         selectedChessman = Chessmans[x, y];
-            //     }
-            //     else if (y == 0) // Black Promotion
-            //     {
-            //         activeChessman.Remove(selectedChessman.gameObject);
-            //         Destroy(selectedChessman.gameObject);
-            //         SpawnChessman(7, x, y, false);
-            //         selectedChessman = Chessmans[x, y];
-            //     }
-            //     EnPassantMove[0] = x;
-            //     if (selectedChessman.CurrentY == 1 && y == 3)
-            //         EnPassantMove[1] = y - 1;
-            //     else if (selectedChessman.CurrentY == 6 && y == 4)
-            //         EnPassantMove[1] = y + 1;
-            // }
 
             Chessmans[selectedChessman.CurrentX, selectedChessman.CurrentY] = null;
             selectedChessman.transform.position = GetTileCenter(x, y);
@@ -263,19 +264,37 @@ public class BoardManager : MonoBehaviour
 
     private void EndGame()
     {
+        UnHide();
         if (isWhiteTurn)
-            Debug.Log("White wins");
-        else
-            Debug.Log("Black wins");
-
-        foreach (GameObject go in activeChessman)
         {
-            Destroy(go);
+            Debug.Log("White wins");
+            _whiteWinsInfo.gameObject.SetActive(true);
+            // SceneManager.LoadScene("WinScreen");
         }
 
-        isWhiteTurn = true;
+        else
+        {
+            _blackWinsInfo.gameObject.SetActive(true);
+            Debug.Log("Black wins");
+            // SceneManager.LoadScene("WinScreen");
+        }
+
+        // foreach (GameObject go in activeChessman)
+        // {
+        //     Destroy(go);
+        // }
+
+        // isWhiteTurn = true;
         BoardHighlights.Instance.HideHighlights();
-        SpawnAllChessmans();
+        // SpawnAllChessmans();
+    }
+
+    private void UnHide()
+    {
+        _eventSystem.enabled = true;
+        _restart.gameObject.SetActive(true);
+        _mainMenu.gameObject.SetActive(true);
+        _quit.gameObject.SetActive(true);
     }
 }
 
