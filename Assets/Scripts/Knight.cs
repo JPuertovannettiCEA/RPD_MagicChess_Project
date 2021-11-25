@@ -8,6 +8,7 @@ public class Knight : Chessman
         bool[,] r = new bool[8, 8];
         Chessman c;
 
+        #region //Movement +
         //Move One UP
         if (CurrentY != 7)
         {
@@ -39,7 +40,9 @@ public class Knight : Chessman
             if (c == null)
                 r[CurrentX, CurrentY - 1] = true;
         }
+        #endregion
 
+        #region //Movement x
         // Diagonal left
         if (CurrentX != 0 && CurrentY != 7)
         {
@@ -77,16 +80,124 @@ public class Knight : Chessman
             if (c == null)
                 r[CurrentX - 1, CurrentY - 1] = true;
         }
+        #endregion
 
-        // Diagonal left Promotion
-        if (CurrentX != 0 && CurrentY != 7)
+        #region //White Promotion x
+        if (isWhite)
         {
-            c = BoardManager.Instance.Chessmans[CurrentX - 1, CurrentY + 1];
-            if (c != null && c.isWhite)
+            // Diagonal left Up Promotion
+            if (CurrentX != 0 && CurrentY != 7)
             {
-                Debug.Log($"Left Can Be Promoted");
+                c = BoardManager.Instance.Chessmans[CurrentX - 1, CurrentY + 1];
+                if (c != null && c.isWhite)
+                {
+                    if (c.GetType() == typeof(Pawn))
+                    {
+                        Debug.Log($"Left Up Can Be Promoted");
+                    }
+                }
+            }
+            // Diagonal left Down Promotion
+            if (CurrentX != 0 && CurrentY != 7 && CurrentY >= 1)
+            {
+                c = BoardManager.Instance.Chessmans[CurrentX + 1, CurrentY - 1];
+                if (c != null && c.isWhite)
+                {
+                    if (c.GetType() == typeof(Pawn))
+                    {
+                        Debug.Log($"Left Down Can Be Promoted");
+                    }
+                }
+            }
+            // Diagonal right Up Promotion
+            if (CurrentX != 7 && CurrentY != 7)
+            {
+                c = BoardManager.Instance.Chessmans[CurrentX + 1, CurrentY + 1];
+                if (c != null && c.isWhite)
+                {
+                    if (c.GetType() == typeof(Pawn))
+                    {
+                        Debug.Log($"Right Up Can Be Promoted");
+                    }
+                }
+            }
+            // Diagonal right Down Promotion
+            if (CurrentX != 0 && CurrentY != 7 && CurrentY >= 1)
+            {
+                c = BoardManager.Instance.Chessmans[CurrentX - 1, CurrentY - 1];
+                if (c != null && c.isWhite)
+                {
+                    if (c.GetType() == typeof(Pawn))
+                    {
+                        Debug.Log($"Right Down Can Be Promoted");
+                    }
+                }
             }
         }
+        else
+        {
+            //Diagonal Left Up Promotion
+            if (CurrentX != 0 && CurrentY != 7)
+            {
+                c = BoardManager.Instance.Chessmans[CurrentX - 1, CurrentY + 1];
+                if (c != null && !c.isWhite)
+                {
+                    if (c.GetType() == typeof(Pawn))
+                    {
+                        Debug.Log($"Left Up Can Be Promoted");
+                    }
+                }
+            }
+            // Diagonal left Down Promotion
+            if (CurrentX != 0 && CurrentY != 7 && CurrentY >= 1)
+            {
+                c = BoardManager.Instance.Chessmans[CurrentX + 1, CurrentY - 1];
+                if (c != null && !c.isWhite)
+                {
+                    if (c.GetType() == typeof(Pawn))
+                    {
+                        Debug.Log($"Left Down Can Be Promoted");
+                    }
+                }
+            }
+            // Diagonal right Up Promotion
+            if (CurrentX != 7 && CurrentY != 7)
+            {
+                c = BoardManager.Instance.Chessmans[CurrentX + 1, CurrentY + 1];
+                if (c != null && !c.isWhite)
+                {
+                    if (c.GetType() == typeof(Pawn))
+                    {
+                        Debug.Log($"Right Up Can Be Promoted");
+                    }
+                }
+            }
+            // Diagonal right Down Promotion
+            if (CurrentX != 0 && CurrentY != 7 && CurrentY >= 1)
+            {
+                c = BoardManager.Instance.Chessmans[CurrentX - 1, CurrentY - 1];
+                if (c != null && !c.isWhite)
+                {
+                    if (c.GetType() == typeof(Pawn))
+                    {
+                        Debug.Log($"Right Down Can Be Promoted");
+                    }
+                }
+            }
+
+        }
+        #endregion
+
+        #region //Kill Opposite Player
+        Move(CurrentX + 1, CurrentY, ref r); // up
+        Move(CurrentX - 1, CurrentY, ref r); // down
+        Move(CurrentX, CurrentY - 1, ref r); // left
+        Move(CurrentX, CurrentY + 1, ref r); // right
+        Move(CurrentX + 1, CurrentY - 1, ref r); // up left
+        Move(CurrentX - 1, CurrentY - 1, ref r); // down left
+        Move(CurrentX + 1, CurrentY + 1, ref r); // up right
+        Move(CurrentX - 1, CurrentY + 1, ref r); // down right
+        #endregion
 
         // // Up left
         // Move(CurrentX - 1, CurrentY + 2, ref r);
