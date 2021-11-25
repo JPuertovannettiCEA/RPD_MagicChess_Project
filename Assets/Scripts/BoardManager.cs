@@ -20,7 +20,7 @@ public class BoardManager : MonoBehaviour
     private List<GameObject> activeChessman;
 
     private Quaternion whiteOrientation = Quaternion.Euler(0, 270, 0);
-    private Quaternion blackOrientation = Quaternion.Euler(0, 90, 0);
+    private Quaternion blackOrientation = Quaternion.Euler(0, 180, 0);
 
     public Chessman[,] Chessmans { get; set; }
     private Chessman selectedChessman;
@@ -181,7 +181,7 @@ public class BoardManager : MonoBehaviour
 
         if (isWhite)
         {
-            go = Instantiate(chessmanPrefabs[index], position, whiteOrientation) as GameObject;
+            go = Instantiate(chessmanPrefabs[index], position, Quaternion.identity) as GameObject;
         }
         else
         {
