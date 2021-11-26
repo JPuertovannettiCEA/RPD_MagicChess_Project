@@ -36,6 +36,30 @@ public class BoardManager : MonoBehaviour
     [SerializeField]
     private EventSystem _eventSystem;
 
+    [SerializeField]
+    private AudioSource _healerSFX;
+
+    [SerializeField]
+    private AudioSource _darkMageSFX;
+
+    [SerializeField]
+    private AudioSource _dyingSFX;
+
+    [SerializeField]
+    private AudioSource _placingSFX;
+
+    [SerializeField]
+    private GameObject _dustPlacingParticles;
+
+    [SerializeField]
+    private GameObject _healerParticles;
+
+    [SerializeField]
+    private GameObject _dyingParticles;
+
+    [SerializeField]
+    private GameObject _darkMageParticles;
+
     // Use this for initialization
     void Start()
     {
@@ -88,7 +112,10 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 SpawnChessman(13, ((int)Globals._x1.transform.position.x), ((int)Globals._x1.transform.position.y + 1), true);
+                var _healerclone1 = Instantiate(_healerParticles, Globals._x1.transform.position, Quaternion.identity);
+                Destroy(_healerclone1.gameObject, 3f);
                 Destroy(Globals._x1.gameObject);
                 Globals._canBePromotedx1 = false;
             }
@@ -97,7 +124,10 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 SpawnChessman(13, ((int)Globals._x2.transform.position.x), ((int)Globals._x2.transform.position.y + 1), true);
+                var _healerclone2 = Instantiate(_healerParticles, Globals._x2.transform.position, Quaternion.identity);
+                Destroy(_healerclone2.gameObject, 3f);
                 Destroy(Globals._x2.gameObject);
                 Globals._canBePromotedx2 = false;
             }
@@ -106,7 +136,10 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 SpawnChessman(13, ((int)Globals._x3.transform.position.x), ((int)Globals._x3.transform.position.y + 1), true);
+                var _healerclone3 = Instantiate(_healerParticles, Globals._x3.transform.position, Quaternion.identity);
+                Destroy(_healerclone3.gameObject, 3f);
                 Destroy(Globals._x3.gameObject);
                 Globals._canBePromotedx3 = false;
             }
@@ -115,7 +148,10 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 SpawnChessman(13, ((int)Globals._x4.transform.position.x), ((int)Globals._x4.transform.position.y + 1), true);
+                var _healerclone4 = Instantiate(_healerParticles, Globals._x4.transform.position, Quaternion.identity);
+                Destroy(_healerclone4.gameObject, 3f);
                 Destroy(Globals._x4.gameObject);
                 Globals._canBePromotedx4 = false;
             }
@@ -124,9 +160,12 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 SpawnChessman(12, ((int)Globals._b1.transform.position.x), 6, false);
                 Debug.Log((int)Globals._b1.transform.position.x);
                 Debug.Log((int)Globals._b1.transform.position.y);
+                var _healerclone5 = Instantiate(_healerParticles, Globals._b1.transform.position, Quaternion.identity);
+                Destroy(_healerclone5.gameObject, 3f);
                 Destroy(Globals._b1.gameObject);
                 Globals._canBePromotedb1 = false;
             }
@@ -135,9 +174,12 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 Debug.Log((int)Globals._b2.transform.position.x);
                 Debug.Log((int)Globals._b2.transform.position.y);
                 SpawnChessman(12, ((int)Globals._b2.transform.position.x), 6, false);
+                var _healerclone6 = Instantiate(_healerParticles, Globals._b2.transform.position, Quaternion.identity);
+                Destroy(_healerclone6.gameObject, 3f);
                 Destroy(Globals._b2.gameObject);
                 Globals._canBePromotedb2 = false;
             }
@@ -146,9 +188,12 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 Debug.Log((int)Globals._b3.transform.position.x);
                 Debug.Log((int)Globals._b3.transform.position.y);
                 SpawnChessman(12, ((int)Globals._b3.transform.position.x), 6, false);
+                var _healerclone7 = Instantiate(_healerParticles, Globals._b3.transform.position, Quaternion.identity);
+                Destroy(_healerclone7.gameObject, 3f);
                 Destroy(Globals._b3.gameObject);
                 Globals._canBePromotedb3 = false;
             }
@@ -157,9 +202,12 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 Debug.Log((int)Globals._b4.transform.position.x);
                 Debug.Log((int)Globals._b4.transform.position.y);
                 SpawnChessman(12, ((int)Globals._b4.transform.position.x), 6, false);
+                var _healerclone8 = Instantiate(_healerParticles, Globals._b4.transform.position, Quaternion.identity);
+                Destroy(_healerclone8.gameObject, 3f);
                 Destroy(Globals._b4.gameObject);
                 Globals._canBePromotedb4 = false;
             }
@@ -195,7 +243,6 @@ public class BoardManager : MonoBehaviour
         previousMat = selectedChessman.GetComponent<MeshRenderer>().material;
         selectedMat.mainTexture = previousMat.mainTexture;
         selectedChessman.GetComponent<MeshRenderer>().material = selectedMat;
-
         BoardHighlights.Instance.HighLightAllowedMoves(allowedMoves);
     }
 
@@ -210,6 +257,9 @@ public class BoardManager : MonoBehaviour
                 // Capture a piece
                 if (c.GetType() == typeof(DarkMage))
                 {
+                    _darkMageSFX.Play();
+                    var darkClone = Instantiate(_darkMageParticles, c.transform.position, transform.rotation * Quaternion.Euler(-90f,0f,0f));
+                    Destroy(darkClone, 2f);
                     Destroy(c.gameObject);
                     Destroy(selectedChessman.gameObject);
                     Debug.Log($"Kill Me and DarkMage");
@@ -226,13 +276,18 @@ public class BoardManager : MonoBehaviour
                     Destroy(c.gameObject);
                     Debug.Log($"King Killed EnemyF");
                 }
+                _dyingSFX.Play();
+                var dyingClone = Instantiate(_dyingParticles, c.transform.position, Quaternion.identity);
+                Destroy(dyingClone, 3f);
                 activeChessman.Remove(c.gameObject);
                 Destroy(c.gameObject);
             }
-
+            _placingSFX.Play();
             Chessmans[selectedChessman.CurrentX, selectedChessman.CurrentY] = null;
             selectedChessman.transform.position = GetTileCenter(x, y);
             selectedChessman.SetPosition(x, y);
+            var _dustClone = Instantiate(_dustPlacingParticles, selectedChessman.transform.position, Quaternion.identity);
+            Destroy(_dustClone.gameObject, 2f);
             Chessmans[x, y] = selectedChessman;
             isWhiteTurn = !isWhiteTurn;
         }
