@@ -54,6 +54,9 @@ public class BoardManager : MonoBehaviour
     [SerializeField]
     private GameObject _healerParticles;
 
+    [SerializeField]
+    private GameObject _dyingParticles;
+
     // Use this for initialization
     void Start()
     {
@@ -269,6 +272,8 @@ public class BoardManager : MonoBehaviour
                     Debug.Log($"King Killed EnemyF");
                 }
                 _dyingSFX.Play();
+                var dyingClone = Instantiate(_dyingParticles, c.transform.position, Quaternion.identity);
+                Destroy(dyingClone, 3f);
                 activeChessman.Remove(c.gameObject);
                 Destroy(c.gameObject);
             }
