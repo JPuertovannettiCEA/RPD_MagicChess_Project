@@ -84,9 +84,86 @@ public class BoardManager : MonoBehaviour
                 }
             }
         }
-
-        if (Input.GetKey("escape"))
-            Application.Quit();
+        if (Globals._canBePromotedx1 == true)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SpawnChessman(13, ((int)Globals._x1.transform.position.x), ((int)Globals._x1.transform.position.y + 1), true);
+                Destroy(Globals._x1.gameObject);
+                Globals._canBePromotedx1 = false;
+            }
+        }
+        if (Globals._canBePromotedx2 == true)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SpawnChessman(13, ((int)Globals._x2.transform.position.x), ((int)Globals._x2.transform.position.y + 1), true);
+                Destroy(Globals._x2.gameObject);
+                Globals._canBePromotedx2 = false;
+            }
+        }
+        if (Globals._canBePromotedx3 == true)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SpawnChessman(13, ((int)Globals._x3.transform.position.x), ((int)Globals._x3.transform.position.y + 1), true);
+                Destroy(Globals._x3.gameObject);
+                Globals._canBePromotedx3 = false;
+            }
+        }
+        if (Globals._canBePromotedx4 == true)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SpawnChessman(13, ((int)Globals._x4.transform.position.x), ((int)Globals._x4.transform.position.y + 1), true);
+                Destroy(Globals._x4.gameObject);
+                Globals._canBePromotedx4 = false;
+            }
+        }
+        if (Globals._canBePromotedb1 == true)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SpawnChessman(12, ((int)Globals._b1.transform.position.x), 6, false);
+                Debug.Log((int)Globals._b1.transform.position.x);
+                Debug.Log((int)Globals._b1.transform.position.y);
+                Destroy(Globals._b1.gameObject);
+                Globals._canBePromotedb1 = false;
+            }
+        }
+        if (Globals._canBePromotedb2 == true)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Debug.Log((int)Globals._b2.transform.position.x);
+                Debug.Log((int)Globals._b2.transform.position.y);
+                SpawnChessman(12, ((int)Globals._b2.transform.position.x), 6, false);
+                Destroy(Globals._b2.gameObject);
+                Globals._canBePromotedb2 = false;
+            }
+        }
+        if (Globals._canBePromotedb3 == true)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Debug.Log((int)Globals._b3.transform.position.x);
+                Debug.Log((int)Globals._b3.transform.position.y);
+                SpawnChessman(12, ((int)Globals._b3.transform.position.x), 6, false);
+                Destroy(Globals._b3.gameObject);
+                Globals._canBePromotedb3 = false;
+            }
+        }
+        if (Globals._canBePromotedb4 == true)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Debug.Log((int)Globals._b4.transform.position.x);
+                Debug.Log((int)Globals._b4.transform.position.y);
+                SpawnChessman(12, ((int)Globals._b4.transform.position.x), 6, false);
+                Destroy(Globals._b4.gameObject);
+                Globals._canBePromotedb4 = false;
+            }
+        }
     }
 
     private void SelectChessman(int x, int y)
@@ -131,6 +208,12 @@ public class BoardManager : MonoBehaviour
             if (c != null && c.isWhite != isWhiteTurn)
             {
                 // Capture a piece
+                if (c.GetType() == typeof(DarkMage))
+                {
+                    Destroy(c.gameObject);
+                    Destroy(selectedChessman.gameObject);
+                    Debug.Log($"Kill Me and DarkMage");
+                }
 
                 if (c.GetType() == typeof(King))
                 {
@@ -138,7 +221,11 @@ public class BoardManager : MonoBehaviour
                     EndGame();
                     return;
                 }
-
+                if (selectedChessman.GetType() == typeof(King))
+                {
+                    Destroy(c.gameObject);
+                    Debug.Log($"King Killed EnemyF");
+                }
                 activeChessman.Remove(c.gameObject);
                 Destroy(c.gameObject);
             }
@@ -173,8 +260,7 @@ public class BoardManager : MonoBehaviour
             selectionY = -1;
         }
     }
-
-    private void SpawnChessman(int index, int x, int y, bool isWhite)
+    public void SpawnChessman(int index, int x, int y, bool isWhite)
     {
         Vector3 position = GetTileCenter(x, y);
         GameObject go;
@@ -185,6 +271,7 @@ public class BoardManager : MonoBehaviour
         }
         else
         {
+            Debug.Log($"i worked");
             go = Instantiate(chessmanPrefabs[index], position, blackOrientation) as GameObject;
         }
 
@@ -269,24 +356,14 @@ public class BoardManager : MonoBehaviour
         {
             Debug.Log("White wins");
             _whiteWinsInfo.gameObject.SetActive(true);
-            // SceneManager.LoadScene("WinScreen");
         }
 
         else
         {
             _blackWinsInfo.gameObject.SetActive(true);
             Debug.Log("Black wins");
-            // SceneManager.LoadScene("WinScreen");
         }
 
-        // foreach (GameObject go in activeChessman)
-        // {
-        //     Destroy(go);
-        // }
-
-        // isWhiteTurn = true;
-        BoardHighlights.Instance.HideHighlights();
-        // SpawnAllChessmans();
     }
 
     private void UnHide()

@@ -96,3 +96,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isWhite: 0
+  _soldierPrefab: {fileID: 1994935599750250}
