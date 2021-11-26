@@ -3116,6 +3116,8 @@ MonoBehaviour:
   _darkMageSFX: {fileID: 1053810348}
   _dyingSFX: {fileID: 576949404}
   _placingSFX: {fileID: 656595694}
+  _dustPlacingParticles: {fileID: 1462327970484030, guid: f01c1eba69de19e44b04d8d651aaac37, type: 3}
+  _healerParticles: {fileID: 108474, guid: 953ca70406ee83c468a2f42fd56bdbe7, type: 3}
 --- !u!4 &1904881799
 Transform:
   m_ObjectHideFlags: 0
