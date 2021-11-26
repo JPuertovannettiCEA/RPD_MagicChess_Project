@@ -3,10 +3,72 @@ using UnityEngine;
 
 public class Knight : Chessman
 {
+    [SerializeField]
+    private GameObject _soldierPrefab;
+
+    private void Awake()
+    {
+        Globals._canBePromotedx1 = false;
+        Globals._canBePromotedx2 = false;
+        Globals._canBePromotedx3 = false;
+        Globals._canBePromotedx4 = false;
+        Globals._canBePromotedb1 = false;
+        Globals._canBePromotedb2 = false;
+        Globals._canBePromotedb3 = false;
+        Globals._canBePromotedb4 = false;
+        Globals._x1 = null;
+        Globals._x2 = null;
+        Globals._x3 = null;
+        Globals._x4 = null;
+        Globals._b1 = null;
+        Globals._b2 = null;
+        Globals._b3 = null;
+        Globals._b4 = null;
+    }
+
     public override bool[,] PossibleMoves()
     {
         bool[,] r = new bool[8, 8];
         Chessman c;
+        if (isWhite)
+        {
+            Globals._canBePromotedx1 = false;
+            Globals._canBePromotedx2 = false;
+            Globals._canBePromotedx3 = false;
+            Globals._canBePromotedx4 = false;
+            Globals._canBePromotedb1 = false;
+            Globals._canBePromotedb2 = false;
+            Globals._canBePromotedb3 = false;
+            Globals._canBePromotedb4 = false;
+            Globals._x1 = null;
+            Globals._x2 = null;
+            Globals._x3 = null;
+            Globals._x4 = null;
+            Globals._b1 = null;
+            Globals._b2 = null;
+            Globals._b3 = null;
+            Globals._b4 = null;
+        }
+        else
+        {
+            Globals._canBePromotedx1 = false;
+            Globals._canBePromotedx2 = false;
+            Globals._canBePromotedx3 = false;
+            Globals._canBePromotedx4 = false;
+            Globals._canBePromotedb1 = false;
+            Globals._canBePromotedb2 = false;
+            Globals._canBePromotedb3 = false;
+            Globals._canBePromotedb4 = false;
+            Globals._x1 = null;
+            Globals._x2 = null;
+            Globals._x3 = null;
+            Globals._x4 = null;
+            Globals._b1 = null;
+            Globals._b2 = null;
+            Globals._b3 = null;
+            Globals._b4 = null;
+
+        }
 
         #region //Movement +
         //Move One UP
@@ -53,12 +115,12 @@ public class Knight : Chessman
             }
         }
         // Diagonal left Down
-        if (CurrentX != 0 && CurrentY != 7 && CurrentY >= 1)
+        if (CurrentX != 0 && CurrentY != 7 && CurrentY >= 1 && CurrentX < 7)
         {
             Debug.Log(CurrentY);
             Debug.Log(CurrentX);
             c = BoardManager.Instance.Chessmans[CurrentX + 1, CurrentY - 1];
-            if (c == null && CurrentY != 0)
+            if (c == null && CurrentY != 0 && CurrentX <= 7)
             {
                 r[CurrentX + 1, CurrentY - 1] = true;
             }
@@ -94,11 +156,13 @@ public class Knight : Chessman
                     if (c.GetType() == typeof(Pawn))
                     {
                         Debug.Log($"Left Up Can Be Promoted");
+                        Globals._canBePromotedx1 = true;
+                        Globals._x1 = c.gameObject;
                     }
                 }
             }
             // Diagonal left Down Promotion
-            if (CurrentX != 0 && CurrentY != 7 && CurrentY >= 1)
+            if (CurrentX != 0 && CurrentY != 7 && CurrentY >= 1 && CurrentX < 7)
             {
                 c = BoardManager.Instance.Chessmans[CurrentX + 1, CurrentY - 1];
                 if (c != null && c.isWhite)
@@ -106,6 +170,8 @@ public class Knight : Chessman
                     if (c.GetType() == typeof(Pawn))
                     {
                         Debug.Log($"Left Down Can Be Promoted");
+                        Globals._canBePromotedx2 = true;
+                        Globals._x2 = c.gameObject;
                     }
                 }
             }
@@ -118,6 +184,8 @@ public class Knight : Chessman
                     if (c.GetType() == typeof(Pawn))
                     {
                         Debug.Log($"Right Up Can Be Promoted");
+                        Globals._canBePromotedx3 = true;
+                        Globals._x3 = c.gameObject;
                     }
                 }
             }
@@ -130,6 +198,8 @@ public class Knight : Chessman
                     if (c.GetType() == typeof(Pawn))
                     {
                         Debug.Log($"Right Down Can Be Promoted");
+                        Globals._canBePromotedx4 = true;
+                        Globals._x4 = c.gameObject;
                     }
                 }
             }
@@ -137,50 +207,60 @@ public class Knight : Chessman
         else
         {
             //Diagonal Left Up Promotion
-            if (CurrentX != 0 && CurrentY != 7)
-            {
-                c = BoardManager.Instance.Chessmans[CurrentX - 1, CurrentY + 1];
-                if (c != null && !c.isWhite)
-                {
-                    if (c.GetType() == typeof(Pawn))
-                    {
-                        Debug.Log($"Left Up Can Be Promoted");
-                    }
-                }
-            }
-            // Diagonal left Down Promotion
-            if (CurrentX != 0 && CurrentY != 7 && CurrentY >= 1)
-            {
-                c = BoardManager.Instance.Chessmans[CurrentX + 1, CurrentY - 1];
-                if (c != null && !c.isWhite)
-                {
-                    if (c.GetType() == typeof(Pawn))
-                    {
-                        Debug.Log($"Left Down Can Be Promoted");
-                    }
-                }
-            }
-            // Diagonal right Up Promotion
-            if (CurrentX != 7 && CurrentY != 7)
+            if (CurrentX != 7 && CurrentY != 0 && CurrentY < 7)
             {
                 c = BoardManager.Instance.Chessmans[CurrentX + 1, CurrentY + 1];
                 if (c != null && !c.isWhite)
                 {
                     if (c.GetType() == typeof(Pawn))
                     {
-                        Debug.Log($"Right Up Can Be Promoted");
+                        Globals._canBePromotedb1 = true;
+                        Globals._b1 = c.gameObject;
+                        Debug.Log($"Left Up Black Can Be Promoted");
+                    }
+                }
+            }
+            // Diagonal left Down Promotion
+            if (CurrentX != 7 && CurrentY != 0 && CurrentX >= 1)
+            {
+                c = BoardManager.Instance.Chessmans[CurrentX + 1, CurrentY - 1];
+                if (c != null && !c.isWhite)
+                {
+                    if (c.GetType() == typeof(Pawn))
+                    {
+                        Globals._canBePromotedb2 = true;
+                        Globals._b2 = c.gameObject;
+                        Debug.Log($"Left Down Black Can Be Promoted");
+                    }
+                }
+            }
+            // Diagonal right Up Promotion
+            if (CurrentX != 7 && CurrentY != 0 && CurrentY < 7)
+            {
+                Debug.Log(CurrentX);
+                Debug.Log(CurrentY);
+                c = BoardManager.Instance.Chessmans[CurrentX - 1, CurrentY + 1];
+                if (c != null && !c.isWhite)
+                {
+                    if (c.GetType() == typeof(Pawn))
+                    {
+                        Globals._canBePromotedb3 = true;
+                        Globals._b3 = c.gameObject;
+                        Debug.Log($"Right Up Black Can Be Promoted");
                     }
                 }
             }
             // Diagonal right Down Promotion
-            if (CurrentX != 0 && CurrentY != 7 && CurrentY >= 1)
+            if (CurrentX != 7 && CurrentY != 0 && CurrentY >= 1)
             {
                 c = BoardManager.Instance.Chessmans[CurrentX - 1, CurrentY - 1];
                 if (c != null && !c.isWhite)
                 {
                     if (c.GetType() == typeof(Pawn))
                     {
-                        Debug.Log($"Right Down Can Be Promoted");
+                        Globals._canBePromotedb4 = true;
+                        Globals._b4 = c.gameObject;
+                        Debug.Log($"Right Down Black Can Be Promoted");
                     }
                 }
             }
@@ -198,31 +278,6 @@ public class Knight : Chessman
         Move(CurrentX + 1, CurrentY + 1, ref r); // up right
         Move(CurrentX - 1, CurrentY + 1, ref r); // down right
         #endregion
-
-        // // Up left
-        // Move(CurrentX - 1, CurrentY + 2, ref r);
-
-        // // Up right
-        // Move(CurrentX + 1, CurrentY + 2, ref r);
-
-        // // Down left
-        // Move(CurrentX - 1, CurrentY - 2, ref r);
-
-        // // Down right
-        // Move(CurrentX + 1, CurrentY - 2, ref r);
-
-
-        // // Left Down
-        // Move(CurrentX - 2, CurrentY - 1, ref r);
-
-        // // Right Down
-        // Move(CurrentX + 2, CurrentY - 1, ref r);
-
-        // // Left Up
-        // Move(CurrentX - 2, CurrentY + 1, ref r);
-
-        // // Right Up
-        // Move(CurrentX + 2, CurrentY + 1, ref r);
 
         return r;
     }
