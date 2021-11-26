@@ -57,6 +57,9 @@ public class BoardManager : MonoBehaviour
     [SerializeField]
     private GameObject _dyingParticles;
 
+    [SerializeField]
+    private GameObject _darkMageParticles;
+
     // Use this for initialization
     void Start()
     {
@@ -255,6 +258,8 @@ public class BoardManager : MonoBehaviour
                 if (c.GetType() == typeof(DarkMage))
                 {
                     _darkMageSFX.Play();
+                    var darkClone = Instantiate(_darkMageParticles, c.transform.position, transform.rotation * Quaternion.Euler(-90f,0f,0f));
+                    Destroy(darkClone, 2f);
                     Destroy(c.gameObject);
                     Destroy(selectedChessman.gameObject);
                     Debug.Log($"Kill Me and DarkMage");

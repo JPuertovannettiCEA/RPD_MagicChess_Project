@@ -3119,6 +3119,7 @@ MonoBehaviour:
   _dustPlacingParticles: {fileID: 1462327970484030, guid: f01c1eba69de19e44b04d8d651aaac37, type: 3}
   _healerParticles: {fileID: 108474, guid: 953ca70406ee83c468a2f42fd56bdbe7, type: 3}
   _dyingParticles: {fileID: 100004, guid: 7867af58a6ec48846ae807eb4022fbaa, type: 3}
+  _darkMageParticles: {fileID: 100000, guid: 7b56cd9b663f23f429e131a54ec87db0, type: 3}
 --- !u!4 &1904881799
 Transform:
   m_ObjectHideFlags: 0
