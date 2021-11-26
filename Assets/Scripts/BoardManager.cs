@@ -36,6 +36,18 @@ public class BoardManager : MonoBehaviour
     [SerializeField]
     private EventSystem _eventSystem;
 
+    [SerializeField]
+    private AudioSource _healerSFX;
+
+    [SerializeField]
+    private AudioSource _darkMageSFX;
+
+    [SerializeField]
+    private AudioSource _dyingSFX;
+
+    [SerializeField]
+    private AudioSource _placingSFX;
+
     // Use this for initialization
     void Start()
     {
@@ -88,6 +100,7 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 SpawnChessman(13, ((int)Globals._x1.transform.position.x), ((int)Globals._x1.transform.position.y + 1), true);
                 Destroy(Globals._x1.gameObject);
                 Globals._canBePromotedx1 = false;
@@ -97,6 +110,7 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 SpawnChessman(13, ((int)Globals._x2.transform.position.x), ((int)Globals._x2.transform.position.y + 1), true);
                 Destroy(Globals._x2.gameObject);
                 Globals._canBePromotedx2 = false;
@@ -106,6 +120,7 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 SpawnChessman(13, ((int)Globals._x3.transform.position.x), ((int)Globals._x3.transform.position.y + 1), true);
                 Destroy(Globals._x3.gameObject);
                 Globals._canBePromotedx3 = false;
@@ -115,6 +130,7 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 SpawnChessman(13, ((int)Globals._x4.transform.position.x), ((int)Globals._x4.transform.position.y + 1), true);
                 Destroy(Globals._x4.gameObject);
                 Globals._canBePromotedx4 = false;
@@ -124,6 +140,7 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 SpawnChessman(12, ((int)Globals._b1.transform.position.x), 6, false);
                 Debug.Log((int)Globals._b1.transform.position.x);
                 Debug.Log((int)Globals._b1.transform.position.y);
@@ -135,6 +152,7 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 Debug.Log((int)Globals._b2.transform.position.x);
                 Debug.Log((int)Globals._b2.transform.position.y);
                 SpawnChessman(12, ((int)Globals._b2.transform.position.x), 6, false);
@@ -146,6 +164,7 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 Debug.Log((int)Globals._b3.transform.position.x);
                 Debug.Log((int)Globals._b3.transform.position.y);
                 SpawnChessman(12, ((int)Globals._b3.transform.position.x), 6, false);
@@ -157,6 +176,7 @@ public class BoardManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                _healerSFX.Play();
                 Debug.Log((int)Globals._b4.transform.position.x);
                 Debug.Log((int)Globals._b4.transform.position.y);
                 SpawnChessman(12, ((int)Globals._b4.transform.position.x), 6, false);
@@ -195,7 +215,6 @@ public class BoardManager : MonoBehaviour
         previousMat = selectedChessman.GetComponent<MeshRenderer>().material;
         selectedMat.mainTexture = previousMat.mainTexture;
         selectedChessman.GetComponent<MeshRenderer>().material = selectedMat;
-
         BoardHighlights.Instance.HighLightAllowedMoves(allowedMoves);
     }
 
@@ -210,6 +229,7 @@ public class BoardManager : MonoBehaviour
                 // Capture a piece
                 if (c.GetType() == typeof(DarkMage))
                 {
+                    _darkMageSFX.Play();
                     Destroy(c.gameObject);
                     Destroy(selectedChessman.gameObject);
                     Debug.Log($"Kill Me and DarkMage");
@@ -226,10 +246,11 @@ public class BoardManager : MonoBehaviour
                     Destroy(c.gameObject);
                     Debug.Log($"King Killed EnemyF");
                 }
+                _dyingSFX.Play();
                 activeChessman.Remove(c.gameObject);
                 Destroy(c.gameObject);
             }
-
+            _placingSFX.Play();
             Chessmans[selectedChessman.CurrentX, selectedChessman.CurrentY] = null;
             selectedChessman.transform.position = GetTileCenter(x, y);
             selectedChessman.SetPosition(x, y);
